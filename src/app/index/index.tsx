@@ -21,7 +21,9 @@ export default function Index() {
                     />
                 </TouchableOpacity>
             </View>
-            <Category />
+            <Category name="Projects" icon="code" />
+            <Category name="Shopping" icon="shop" />
+            <Category name="Study" icon="book" />
         </View>
     )
 }
