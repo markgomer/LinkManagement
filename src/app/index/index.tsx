@@ -5,6 +5,7 @@ import { styles } from "./styles"
 import { colors } from "@/styles/colors"
 
 import { CategoryList } from "@/components/categoryList"
+import { Link } from "@/components/link"
 
 export default function Index() {
     return (
@@ -23,6 +24,7 @@ export default function Index() {
                 </TouchableOpacity>
             </View>
             <CategoryList />
+            <Link name="test" url="wikipedia.com"/>
         </View>
     )
 }
