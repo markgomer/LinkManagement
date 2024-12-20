@@ -1,4 +1,4 @@
-import { View, Image, TouchableOpacity } from "react-native"
+import { View, Image, TouchableOpacity, FlatList } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 
 import { styles } from "./styles"
@@ -24,7 +24,16 @@ export default function Index() {
                 </TouchableOpacity>
             </View>
             <CategoryList />
-            <Link name="test" url="wikipedia.com"/>
+            <FlatList
+                data={["1", "2", "3", "4", "5"]}
+                keyExtractor={(item) => item}
+                renderItem={() => (
+                    <Link name="Shwrowbow Test!" url="wikipedia.com"/>
+                )}
+                style={styles.linkList}
+                contentContainerStyle={styles.linkListContent}
+            >
+            </FlatList>
         </View>
     )
 }
