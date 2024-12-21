@@ -22,7 +22,7 @@ export function Link({name, url} : LinkProps) {
                 </Text>
             </View>
 
-            <TouchableOpacity activeOpacity={0.5}>
+            <TouchableOpacity>
                 <MaterialIcons
                     name="more-horiz"
                     size={20}
