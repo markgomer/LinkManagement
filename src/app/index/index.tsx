@@ -1,11 +1,16 @@
-import { View, Image, TouchableOpacity, FlatList } from "react-native"
-import { MaterialIcons } from "@expo/vector-icons"
-
-import { styles } from "./styles"
-import { colors } from "@/styles/colors"
-
-import { CategoryList } from "@/components/categoryList"
-import { Link } from "@/components/link"
+import {
+    View,
+    Image,
+    TouchableOpacity,
+    FlatList,
+    Modal,
+    Text,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { styles } from "./styles";
+import { colors } from "@/styles/colors";
+import { CategoryList } from "@/components/categoryList";
+import { Link } from "@/components/link";
 
 export default function Index() {
     return (
@@ -15,7 +20,7 @@ export default function Index() {
                     source={require("@/assets/logo.png")}
                     style={styles.logo}
                 />
-                <TouchableOpacity activeOpacity={0.5}>
+                <TouchableOpacity>
                     <MaterialIcons
                         name="add"
                         size={32}
@@ -34,6 +39,29 @@ export default function Index() {
                 contentContainerStyle={styles.linkListContent}
             >
             </FlatList>
-        </View>
-    )
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={true}
+            >
+                <View style={styles.modal}>
+                    <View style={styles.modalContent}>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalCategory}>Curso</Text>
+                            <MaterialIcons
+                                name="close"
+                                size={24}
+                                color={colors.gray[400]}
+                            />
+                        </View>
+                        <Text style={styles.modalLinkName}>Title</Text>
+                        <Text style={styles.modalURL}>www.url.com.br</Text>
+                    </View>
+                </View>
+            </Modal>
+
+
+    </View>
+  )
 }
