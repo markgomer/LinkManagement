@@ -36,4 +36,13 @@ export const styles = StyleSheet.create({
         fontWeight: "600",
         color: colors.gray[400],
     },
+    optionsContainer: {
+        flexDirection: "row",
+        marginTop: 64,
+        width: "100%",
+        justifyContent: "space-between",
+        borderTopWidth: 1,
+        borderTopColor: colors.gray[600],
+        paddingVertical: 14,
+    }
 })
