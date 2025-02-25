@@ -1,8 +1,11 @@
 import { MaterialIcons } from "@expo/vector-icons"
 import { View, Text, TouchableOpacity } from "react-native"
+import { router } from "expo-router"
 
 import { colors } from "@/styles/colors"
 import { styles } from "./styles"
+
+import { CategoryList } from "@/components/categoryList"
 
 export default function Add() {
     return (
@@ -10,7 +13,7 @@ export default function Add() {
             {/* Header */}
             <View style={styles.header}>
                 {/* Back icon */}
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => router.back()}>
                     <MaterialIcons
                         name="arrow-back"
                         size={32} 
@@ -23,6 +26,7 @@ export default function Add() {
             </View>
 
             <Text style={styles.label}> Selecione uma categoria </Text>
+            <CategoryList />
 
         </View>
     )
