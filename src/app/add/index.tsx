@@ -6,6 +6,7 @@ import { colors } from "@/styles/colors"
 import { styles } from "./styles"
 
 import { CategoryList } from "@/components/categoryList"
+import { Input } from "@/components/input"
 
 export default function Add() {
     return (
@@ -22,12 +23,15 @@ export default function Add() {
                 </TouchableOpacity>
                 {/* Title */}
                 <Text style={styles.title}> Novo </Text>
-
             </View>
 
             <Text style={styles.label}> Selecione uma categoria </Text>
             <CategoryList />
-
+            
+            <View style={styles.form}>
+                <Input placeholder="Nome" />
+                <Input placeholder="URL" />
+            </View>
         </View>
     )
 }
