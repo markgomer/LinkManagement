@@ -1,16 +1,18 @@
 import { useState } from "react"
+import { router } from "expo-router"
 import { MaterialIcons } from "@expo/vector-icons"
 import { View, Text, TouchableOpacity } from "react-native"
-import { router } from "expo-router"
 
-import { colors } from "@/styles/colors"
 import { styles } from "./styles"
+import { colors } from "@/styles/colors"
+import { categories } from "@/utils/categories"
 
-import { CategoryList } from "@/components/categoryList"
 import { Input } from "@/components/input"
 import { Button } from "@/components/button"
+import { CategoryList } from "@/components/categoryList"
 
 export default function Add() {
+    const [category, setCategory] = useState(categories[0].name);
     const [name, setName] = useState<string>()
     const [url, setUrl] = useState<string>()
 
@@ -35,7 +37,7 @@ export default function Add() {
             </View>
 
             <Text style={styles.label}> Selecione uma categoria </Text>
-            <CategoryList />
+            <CategoryList selected={category} onChange={setCategory}/>
             
             <View style={styles.form}>
                 <Input
@@ -49,9 +51,6 @@ export default function Add() {
                     autoCorrect={false}
                 />
                 <Button title="Adicionar" onPress={handleAdd}/>
-
-                {/* DEBUG */}
-                <Text style={styles.title}>{name}</Text> 
             </View>
         </View>
     )

@@ -4,7 +4,12 @@ import { styles } from "./styles"
 import { categories } from "@/utils/categories"
 import { Category } from "@/components/category"
 
-export function CategoryList() {
+type Props = {
+    selected: string
+    onChange: (category: string) => void
+}
+
+export function CategoryList({ selected, onChange}: Props) {
     return (
         <FlatList
             data={categories}
@@ -13,7 +18,8 @@ export function CategoryList() {
                 <Category
                     name={item.name}
                     icon={item.icon}
-                    isSelected={false}
+                    isSelected={item.name === selected}
+                    onPress={() => onChange(item.name)}
                 />
             )}
             horizontal={true}
