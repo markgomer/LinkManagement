@@ -9,23 +9,36 @@ import { colors } from "@/styles/colors"
 import { Input } from "@/components/input"
 import { Button } from "@/components/button"
 import { CategoryList } from "@/components/categoryList"
+import { linkStorage } from "@/storage/link-storage"
 
 export default function Add() {
     const [category, setCategory] = useState("");
     const [name, setName] = useState("");
     const [url, setUrl] = useState("");
 
-    function handleAdd() {
-        if(!category) {
-            return Alert.alert("Categoria", "Selecione a categoria");
+    async function handleAdd() {
+        try {
+            if(!category) {
+                return Alert.alert("Categoria", "Selecione a categoria");
+            }
+            if(!name.trim()) {
+                return Alert.alert("Nome", "Informe o nome");
+            }
+            if(!url.trim()) {
+                return Alert.alert("URL", "Informe a URL");
+            }
+            await linkStorage.save({
+                id: new Date().getTime().toString(),
+                name,
+                url,
+                category
+            })
+            const data = await linkStorage.get()
+            console.log(data);
+        } catch (error) {
+            Alert.alert("Erro", "Não foi possível salvar o link")
+            console.log(error)
         }
-        if(!name.trim()) {
-            return Alert.alert("Nome", "Informe o nome");
-        }
-        if(!url.trim()) {
-            return Alert.alert("URL", "Informe a URL");
-        }
-        console.log({ category, name, url });
     }
 
     return (
@@ -57,6 +70,7 @@ export default function Add() {
                     placeholder="URL"
                     onChangeText={setUrl}
                     autoCorrect={false}
+                    autoCapitalize="none"
                 />
                 <Button title="Adicionar" onPress={handleAdd}/>
             </View>
