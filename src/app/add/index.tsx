@@ -1,23 +1,31 @@
 import { useState } from "react"
 import { router } from "expo-router"
 import { MaterialIcons } from "@expo/vector-icons"
-import { View, Text, TouchableOpacity } from "react-native"
+import { View, Text, TouchableOpacity, Alert } from "react-native"
 
 import { styles } from "./styles"
 import { colors } from "@/styles/colors"
-import { categories } from "@/utils/categories"
 
 import { Input } from "@/components/input"
 import { Button } from "@/components/button"
 import { CategoryList } from "@/components/categoryList"
 
 export default function Add() {
-    const [category, setCategory] = useState(categories[0].name);
-    const [name, setName] = useState<string>()
-    const [url, setUrl] = useState<string>()
+    const [category, setCategory] = useState("");
+    const [name, setName] = useState("");
+    const [url, setUrl] = useState("");
 
     function handleAdd() {
-        console.log({name, url})
+        if(!category) {
+            return Alert.alert("Categoria", "Selecione a categoria");
+        }
+        if(!name.trim()) {
+            return Alert.alert("Nome", "Informe o nome");
+        }
+        if(!url.trim()) {
+            return Alert.alert("URL", "Informe a URL");
+        }
+        console.log({ category, name, url });
     }
 
     return (
