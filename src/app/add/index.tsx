@@ -27,14 +27,15 @@ export default function Add() {
             if(!url.trim()) {
                 return Alert.alert("URL", "Informe a URL");
             }
-            await linkStorage.save({
+            const dataToSave = {
                 id: new Date().getTime().toString(),
                 name,
                 url,
                 category
-            })
-            const data = await linkStorage.get()
-            console.log(data);
+            }
+            await linkStorage.save(dataToSave)
+            const dataToShow = await linkStorage.get()
+            console.log(dataToShow);
         } catch (error) {
             Alert.alert("Erro", "Não foi possível salvar o link")
             console.log(error)

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import { View, Image, TouchableOpacity, FlatList } from "react-native";
+import { View, Image, TouchableOpacity, FlatList, Alert } from "react-native";
 
 import { styles } from "./styles";
 import { colors } from "@/styles/colors";
@@ -11,8 +11,28 @@ import { Link } from "@/components/link";
 import { DetailsModal } from "@/components/modal";
 import { CategoryList } from "@/components/categoryList";
 
+import { linkStorage, LinkStorage } from "@/storage/link-storage";
+
 export default function Index() {
+    const [links, setLinks] = useState<LinkStorage[]>([])
     const [category, setCategory] = useState(categories[0].name)
+
+    async function getLinks() {
+        try {
+            const linkStorageListResponse = await linkStorage.get()
+            setLinks(linkStorageListResponse)
+        } catch (error) {
+            Alert.alert("Erro", "Não foi possível listar os links")
+        }
+    }
+
+    // useEffect(() => {}, []) função, dependências
+    // Se a lista de dependências estiver vazia, o useEffect é chamado toda vez
+    // que o componente é carregado
+    useEffect(() => {
+        getLinks()
+        console.log("CHAMOU o useEffect!")
+    }, [category]) // toda vez que essas dependências mudarem, o useEffect é chamado
 
     return (
         <View style={styles.container}>
@@ -31,10 +51,13 @@ export default function Index() {
             </View>
             <CategoryList selected={category} onChange={setCategory} />
             <FlatList
-                data={["1", "2", "3", "4", "5"]}
-                keyExtractor={(item) => item}
-                renderItem={() => (
-                    <Link name="Shwrowbow Test!" url="wikipedia.com"/>
+                data={links} // useState links. LinkStorage[]
+                keyExtractor={(item) => item.id} // item do tipo LinkStorage
+                renderItem={({ item }) => (
+                    <Link
+                        name={item.name}
+                        url={item.url}
+                    />
                 )}
                 style={styles.linkList}
                 contentContainerStyle={styles.linkListContent}
