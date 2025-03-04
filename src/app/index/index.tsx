@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { router } from "expo-router";
+import { useState, useCallback } from "react";
+import { router, useFocusEffect } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import { View, Image, TouchableOpacity, FlatList, Alert } from "react-native";
 
@@ -26,13 +26,12 @@ export default function Index() {
         }
     }
 
-    // useEffect(() => {}, []) função, dependências
-    // Se a lista de dependências estiver vazia, o useEffect é chamado toda vez
-    // que o componente é carregado
-    useEffect(() => {
-        getLinks()
-        console.log("CHAMOU o useEffect!")
-    }, [category]) // toda vez que essas dependências mudarem, o useEffect é chamado
+    useFocusEffect(
+        useCallback(() => {
+            getLinks()
+            console.log("CHAMOU o useEffect!")
+        }, [category])
+    )
 
     return (
         <View style={styles.container}>
