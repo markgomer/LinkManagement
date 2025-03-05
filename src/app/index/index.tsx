@@ -15,12 +15,15 @@ import { linkStorage, LinkStorage } from "@/storage/link-storage";
 
 export default function Index() {
     const [links, setLinks] = useState<LinkStorage[]>([])
-    const [category, setCategory] = useState(categories[0].name)
+    const [selectedCategory, setCategory] = useState(categories[0].name)
 
     async function getLinks() {
         try {
             const linkStorageListResponse = await linkStorage.get()
-            setLinks(linkStorageListResponse)
+            const filtered = linkStorageListResponse.filter(
+                (link) => link.category === selectedCategory
+            )
+            setLinks(filtered)
         } catch (error) {
             Alert.alert("Erro", "Não foi possível listar os links")
         }
@@ -30,7 +33,7 @@ export default function Index() {
         useCallback(() => {
             getLinks()
             console.log("CHAMOU o useEffect!")
-        }, [category])
+        }, [selectedCategory])
     )
 
     return (
@@ -48,7 +51,7 @@ export default function Index() {
                     />
                 </TouchableOpacity>
             </View>
-            <CategoryList selected={category} onChange={setCategory} />
+            <CategoryList selected={selectedCategory} onChange={setCategory} />
             <FlatList
                 data={links} // useState links. LinkStorage[]
                 keyExtractor={(item) => item.id} // item do tipo LinkStorage
