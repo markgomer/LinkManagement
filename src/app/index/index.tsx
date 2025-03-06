@@ -1,21 +1,30 @@
 import { useState, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import { View, Image, TouchableOpacity, FlatList, Alert } from "react-native";
+import {
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    FlatList,
+    Alert,
+    Modal
+} from "react-native";
 
 import { styles } from "./styles";
 import { colors } from "@/styles/colors";
 import { categories } from "@/utils/categories";
 
 import { Link } from "@/components/link";
-import { DetailsModal } from "@/components/modal";
 import { CategoryList } from "@/components/categoryList";
+import { Option } from "@/components/option";
 
 import { linkStorage, LinkStorage } from "@/storage/link-storage";
 
 export default function Index() {
     const [links, setLinks] = useState<LinkStorage[]>([])
     const [selectedCategory, setCategory] = useState(categories[0].name)
+    const [isModalOpen, setModalOpen] = useState(false)
 
     async function getLinks() {
         try {
@@ -59,13 +68,41 @@ export default function Index() {
                     <Link
                         name={item.name}
                         url={item.url}
-                    />
+                        onDetails={() => setModalOpen(true)}
+                        />
                 )}
                 style={styles.linkList}
                 contentContainerStyle={styles.linkListContent}
             >
             </FlatList>
-            <DetailsModal />
+            {/* <DetailsModal isOpen={isModalOpen}/> */}
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={isModalOpen}
+            >
+                <View style={styles.modal}>
+                    <View style={styles.modalContent}>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalCategory}>Curso</Text>
+                            <TouchableOpacity onPress={()=>setModalOpen(false)}>
+                                <MaterialIcons
+                                    name="close"
+                                    size={24}
+                                    color={colors.gray[400]}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.modalLinkName}>Title</Text>
+                        <Text style={styles.modalURL}>www.url.com.br</Text>
+                        <View style={styles.optionsContainer}>
+                            <Option name="Open" icon="language" variant="primary"/>
+                            <Option name="Close" icon="close" variant="secondary"/>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
 
     </View>
   )
