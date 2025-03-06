@@ -9,19 +9,25 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Option } from "@/components/option";
 import { styles } from "./styles";
 import { colors } from "@/styles/colors";
+import { useState } from "react";
 
-export function DetailsModal() {
+type Props = {
+    isOpen: boolean
+}
+
+export function DetailsModal({ isOpen } : Props) {
+    const [isModalOpen, setOpen] = useState(isOpen)
     return (
         <Modal
             animationType="slide"
             transparent={true}
-            visible={false}
+            visible={isModalOpen}
         >
             <View style={styles.modal}>
                 <View style={styles.modalContent}>
                     <View style={styles.modalHeader}>
                         <Text style={styles.modalCategory}>Curso</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={()=>setOpen(false)}>
                             <MaterialIcons
                                 name="close"
                                 size={24}
