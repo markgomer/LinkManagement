@@ -25,6 +25,7 @@ export default function Index() {
     const [links, setLinks] = useState<LinkStorage[]>([])
     const [selectedCategory, setCategory] = useState(categories[0].name)
     const [isModalOpen, setModalOpen] = useState(false)
+    const [link, setLink] = useState<LinkStorage>({} as LinkStorage)
 
     async function getLinks() {
         try {
@@ -36,6 +37,11 @@ export default function Index() {
         } catch (error) {
             Alert.alert("Erro", "Não foi possível listar os links")
         }
+    }
+
+    function handleDetails(selected: LinkStorage) {
+        setModalOpen(true)
+        setLink(selected)
     }
 
     useFocusEffect(
@@ -68,14 +74,13 @@ export default function Index() {
                     <Link
                         name={item.name}
                         url={item.url}
-                        onDetails={() => setModalOpen(true)}
+                        onDetails={() => handleDetails(item)}
                         />
                 )}
                 style={styles.linkList}
                 contentContainerStyle={styles.linkListContent}
             >
             </FlatList>
-            {/* <DetailsModal isOpen={isModalOpen}/> */}
 
             <Modal
                 animationType="slide"
@@ -85,7 +90,9 @@ export default function Index() {
                 <View style={styles.modal}>
                     <View style={styles.modalContent}>
                         <View style={styles.modalHeader}>
-                            <Text style={styles.modalCategory}>Curso</Text>
+                            <Text style={styles.modalCategory}>
+                                {link.category}
+                            </Text>
                             <TouchableOpacity onPress={()=>setModalOpen(false)}>
                                 <MaterialIcons
                                     name="close"
@@ -94,11 +101,19 @@ export default function Index() {
                                 />
                             </TouchableOpacity>
                         </View>
-                        <Text style={styles.modalLinkName}>Title</Text>
-                        <Text style={styles.modalURL}>www.url.com.br</Text>
+                        <Text style={styles.modalLinkName}>{link.name}</Text>
+                        <Text style={styles.modalURL}>{link.url}</Text>
                         <View style={styles.optionsContainer}>
-                            <Option name="Open" icon="language" variant="primary"/>
-                            <Option name="Close" icon="close" variant="secondary"/>
+                            <Option
+                                name="Open"
+                                icon="language"
+                                variant="primary"
+                            />
+                            <Option
+                                name="Close"
+                                icon="close"
+                                variant="secondary"
+                            />
                         </View>
                     </View>
                 </View>
