@@ -39,6 +39,24 @@ export default function Index() {
         }
     }
 
+    async function linkRemove() {
+        try {
+            await linkStorage.remove(link.id)
+            getLinks()
+            setModalOpen(false)
+        } catch (error) {
+            Alert.alert("Erro", "Não foi possível excluir")
+            console.log(error)
+        }
+    }
+
+    async function handleRemove() {
+        Alert.alert("Excluir", "Deseja realmente excluir?", [
+            { style: "cancel", text: "Não"},
+            { text: "Sim", onPress: linkRemove },
+        ])
+    }
+
     function handleDetails(selected: LinkStorage) {
         setModalOpen(true)
         setLink(selected)
@@ -110,9 +128,10 @@ export default function Index() {
                                 variant="primary"
                             />
                             <Option
-                                name="Close"
-                                icon="close"
+                                name="Delete"
+                                icon="delete"
                                 variant="secondary"
+                                onPress={handleRemove}
                             />
                         </View>
                     </View>
