@@ -8,7 +8,8 @@ import {
     TouchableOpacity,
     FlatList,
     Alert,
-    Modal
+    Modal,
+    Linking
 } from "react-native";
 
 import { styles } from "./styles";
@@ -60,6 +61,15 @@ export default function Index() {
     function handleDetails(selected: LinkStorage) {
         setModalOpen(true)
         setLink(selected)
+    }
+
+    async function handleOpen() {
+        try {
+            await Linking.openURL(link.url)
+            setModalOpen(false)
+        } catch (error) {
+            Alert.alert("Link", "Não foi possível abrir o link")
+        }
     }
 
     useFocusEffect(
@@ -126,6 +136,7 @@ export default function Index() {
                                 name="Open"
                                 icon="language"
                                 variant="primary"
+                                onPress={handleOpen}
                             />
                             <Option
                                 name="Delete"
